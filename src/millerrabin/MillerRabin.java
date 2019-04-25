@@ -1,14 +1,13 @@
+package millerrabin;
+
 import java.util.Scanner;
 
 public class MillerRabin {
 
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-        
-	Integer n = sc.nextInt();
-        Integer nMenosUm, q, a;
-        Integer k = 0;
+    public static String isPrime(long n)
+    {
+                Long nMenosUm, q = null, a;
+        long k = 0;
         String nMenosUmBin;
         
         if (n % 2 == 0 || n == 0 || n == 1) {
@@ -16,20 +15,22 @@ public class MillerRabin {
         } else {
             // (n – 1 = 2k * q)
             nMenosUm = n - 1;
-            nMenosUmBin = Integer.toBinaryString(nMenosUm);
             
-            while ((nMenosUmBin & 1) != 1) {
+            
+            nMenosUmBin = Long.toBinaryString(nMenosUm);
+            
+            while ((nMenosUm & 1) != 1) {
 
                 if (nMenosUmBin.charAt(nMenosUmBin.length() - 1) == '0') {
                     nMenosUmBin = nMenosUmBin.substring(0, nMenosUmBin.length() - 1);
-                    nMenosUmBin = Integer.parseInt(nMenosUmBin, 2);
+                    nMenosUm = Long.parseLong(nMenosUmBin, 2);
                     k++;
                 }
-                q = Integer.parseInt(nMenosUmBin, 2);
+                q = Long.parseLong(nMenosUmBin, 2);
             }
 
             System.out.println("k = " + k + ", q = " + q);
-            for (int i = 2; i < n - 1; i++) {
+            for (long i = 2; i < n - 1; i++) {
                 
             a = i;
             
@@ -37,19 +38,42 @@ public class MillerRabin {
             System.out.println(Math.pow(a, q) % n);
 
                 if (Math.pow(a, q) % n == 1) {
-                        System.out.printf("INCONCLUSIVE\n");
+                    return "INCONCLUSIVE\n";
                 } else {
                     for (int j = 0; j < k - 1; j++) {
-                        double potencia = Math.pow(2, j) * q;
+                        long potencia = (long) (Math.pow(2, j) * q);
 
                         if (Math.pow(a, potencia) % n == (n - 1)) {
-                                System.out.printf("INCONCLUSIVE\n", n);
+                            return "INCONCLUSIVE\n";
                         } else {
-                                System.out.printf("COMPOSITE\n", n);
+                            return "COMPOSITE\n";
                         }
                     }
                 }
             }
         }
+        return null;
+
+    }
+    
+    public static void main(String[] args) {
+        
+//        long bla;
+//        
+//        bla=1;
+//        
+//        while (bla>0)
+//        {
+//            bla=bla+100;
+//        }
+//        bla=bla-100;
+        
+ //       System.out.println(bla + "\n\n\n");
+        
+        Scanner sc = new Scanner(System.in);
+        
+	Long n = sc.nextLong();
+        
+        System.out.println(isPrime(n));
     }
 }
